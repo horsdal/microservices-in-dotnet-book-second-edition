@@ -1,0 +1,15 @@
+GET https://localhost:5001/shoppingcart/123
+
+####
+POST https://localhost:5001/shoppingcart/123/items
+Accept: application/json
+Content-Type: application/json
+
+[1, 2]
+
+###
+
+GET https://localhost:5001/events?start=0&end=20
+Accept: application/json
+
+###

@@ -1,0 +1,20 @@
+@host = 40.127.210.206
+@port=5000
+
+@user={{$randomInt 1 1000}}
+
+###
+GET http://{{host}}:{{port}}/shoppingcart/{{user}}
+
+####
+POST http://{{host}}:{{port}}/shoppingcart/{{user}}/items
+Accept: application/json
+Content-Type: application/json
+
+[1, 2]
+
+###
+
+GET http://{{host}}:{{port}}/events?start=0&end=20
+Accept: application/json
+

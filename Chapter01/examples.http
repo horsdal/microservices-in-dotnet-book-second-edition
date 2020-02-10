@@ -1,0 +1,7 @@
+GET http://localhost:5000/
+
+###
+GET https://localhost:5001/
+Accept: application/json
+
+###
