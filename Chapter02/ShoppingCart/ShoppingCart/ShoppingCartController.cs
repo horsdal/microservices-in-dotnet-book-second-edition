@@ -6,7 +6,7 @@ namespace ShoppingCart.Shoppingcart
   using ShoppingCart;
 
   [Route("/shoppingcart")]
-  public class ShoppingCartController : Controller
+  public class ShoppingCartController
   {
     private readonly IShoppingCartStore shoppingCartStore;
     private readonly IProductCatalogClient productCatalog;
@@ -28,10 +28,10 @@ namespace ShoppingCart.Shoppingcart
     [HttpPost("{userId:int}/items")]
     public async Task<ShoppingCart> Post(int userId, [FromBody] int[] productIds)
     {
-      var shoppingCart = shoppingCartStore.Get(userId);
+      var shoppingCart = shoppingCartStore.Get(userId);
       var shoppingCartItems = await this.productCatalog.GetShoppingCartItems(productIds);
-      shoppingCart.AddItems(shoppingCartItems, eventStore);
-      shoppingCartStore.Save(shoppingCart);
+      shoppingCart.AddItems(shoppingCartItems, eventStore);
+      this.shoppingCartStore.Save(shoppingCart);
 
       return shoppingCart;
     }

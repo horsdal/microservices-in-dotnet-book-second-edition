@@ -8,6 +8,7 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution items", "Solution items", "{EEC9F547-74EA-49CD-9AB2-BA9A82CD1B47}"
 	ProjectSection(SolutionItems) = preProject
 		examples.http = examples.http
+		LoyaltyProgram\loyalty-program.yaml = LoyaltyProgram\loyalty-program.yaml
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ApiGatewayMock", "ApiGatewayMock\ApiGatewayMock.csproj", "{41FD5EBC-69AB-4588-9415-5D8DCEC3008F}"

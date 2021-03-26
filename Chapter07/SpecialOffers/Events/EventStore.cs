@@ -27,25 +27,6 @@
         .Where(e => start <= e.SequenceNumber && e.SequenceNumber < end)
         .OrderBy(e => e.SequenceNumber);
   }
-  
-  public class EventFeedEvent
-  {
-    public long SequenceNumber { get; }
-    public DateTimeOffset OccuredAt { get; }
-    public string Name { get; }
-    public object Content { get; }
 
-    public EventFeedEvent(
-      long sequenceNumber,
-      DateTimeOffset occuredAt,
-      string name,
-      object content)
-    {
-      this.SequenceNumber = sequenceNumber;
-      this.OccuredAt = occuredAt;
-      this.Name = name;
-      this.Content = content;
-    }
-  }
-
+  public record EventFeedEvent(long SequenceNumber, DateTimeOffset OccuredAt, string Name, object Content);
 }

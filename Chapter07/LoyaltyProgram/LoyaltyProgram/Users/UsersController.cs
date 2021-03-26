@@ -5,7 +5,7 @@
   using Microsoft.AspNetCore.Mvc;
 
   [Route("/users")]
-  public class UsersController : Controller
+  public class UsersController : ControllerBase
   {
     private static readonly IDictionary<int, LoyaltyProgramUser> RegisteredUsers = new Dictionary<int, LoyaltyProgramUser>();
 
@@ -17,12 +17,15 @@
       RegisteredUsers.ContainsKey(userId) 
         ? (ActionResult<LoyaltyProgramUser>) Ok(RegisteredUsers[userId])
         : NotFound();
-    
+
     [HttpPost("")]
     public ActionResult<LoyaltyProgramUser> CreateUser([FromBody] LoyaltyProgramUser user)
     {
-      throw new Exception();
-      }
+      if (user == null)
+        return BadRequest();
+      var newUser = RegisterUser(user);
+      return Created(new Uri($"/users/{newUser.Id}", UriKind.Relative), newUser);
+    }
 
     [HttpPut("{userId:int}")]
     public LoyaltyProgramUser UpdateUser(
@@ -33,8 +36,7 @@
     private LoyaltyProgramUser RegisterUser(LoyaltyProgramUser user)
     {
       var userId = RegisteredUsers.Count;
-      user.Id = userId;
-      return RegisteredUsers[userId] = user;
+      return RegisteredUsers[userId] = user with {Id = userId};
     }
   }
 }

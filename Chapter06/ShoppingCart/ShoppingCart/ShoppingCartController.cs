@@ -1,12 +1,11 @@
-namespace ShoppingCart.Shoppingcart
+namespace ShoppingCart.ShoppingCart
 {
   using System.Threading.Tasks;
   using EventFeed;
   using Microsoft.AspNetCore.Mvc;
-  using ShoppingCart;
 
   [Route("/shoppingcart")]
-  public class ShoppingCartController : Controller
+  public class ShoppingCartController
   {
     private readonly IShoppingCartStore shoppingCartStore;
     private readonly IProductCatalogClient productCatalog;
@@ -30,7 +29,7 @@ namespace ShoppingCart.Shoppingcart
     {
       var shoppingCart = await shoppingCartStore.Get(userId);
       var shoppingCartItems = await this.productCatalog.GetShoppingCartItems(productIds);
-      await shoppingCart.AddItems(shoppingCartItems, this.eventStore);
+      shoppingCart.AddItems(shoppingCartItems, eventStore);
       await this.shoppingCartStore.Save(shoppingCart);
 
       return shoppingCart;

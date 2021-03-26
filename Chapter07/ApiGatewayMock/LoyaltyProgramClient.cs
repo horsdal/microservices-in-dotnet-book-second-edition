@@ -3,7 +3,7 @@
   using System.Net.Http;
   using System.Text;
   using System.Threading.Tasks;
-  using Newtonsoft.Json;
+  using System.Text.Json;
 
   public class LoyaltyProgramClient
   {
@@ -20,13 +20,13 @@
 
     private static StringContent CreateBody(object user) =>
       new StringContent(
-        JsonConvert.SerializeObject(user),
+        JsonSerializer.Serialize(user),
         Encoding.UTF8,
         "application/json");
 
     public async Task<HttpResponseMessage> QueryUser(string arg) => await this.httpClient.GetAsync($"/users/{int.Parse(arg)}");
 
-    public async Task<HttpResponseMessage> UpdateUser(dynamic user) =>
-      await this.httpClient.PutAsync($"/users/{user.id}", CreateBody(user));
+    public async Task<HttpResponseMessage> UpdateUser(LoyaltyProgramUser user) =>
+      await this.httpClient.PutAsync($"/users/{user.Id}", CreateBody(user));
   }
 }

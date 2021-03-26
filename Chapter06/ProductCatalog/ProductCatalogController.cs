@@ -5,7 +5,7 @@
   using Microsoft.AspNetCore.Mvc;
 
   [Route("/products")]
-  public class ProductCatalogController : Controller
+  public class ProductCatalogController
   {
     private readonly IProductStore productStore;
 
@@ -13,9 +13,8 @@
 
     [HttpGet("")]
     [ResponseCache(Duration = 86400)]
-    public IEnumerable<ProductCatalogProduct> Get()
+    public IEnumerable<ProductCatalogProduct> Get([FromQuery] string productIds)
     {
-      var productIds = this.Request.Query["productIds"];
       var products = this.productStore.GetProductsByIds(ParseProductIdsFromQueryString(productIds));
       return products;
     }
@@ -30,26 +29,11 @@
 
   public class ProductStore : IProductStore
   {
-    public IEnumerable<ProductCatalogProduct> GetProductsByIds(IEnumerable<int> productIds)
-    {
-      return productIds.Select(id => new ProductCatalogProduct(id, "foo" + id, "bar", new Money()));
-    }
+    public IEnumerable<ProductCatalogProduct> GetProductsByIds(IEnumerable<int> productIds) =>
+      productIds.Select(id => new ProductCatalogProduct(id, "foo" + id, "bar", new Money()));
   }
 
-  public class ProductCatalogProduct
-  {
-    public ProductCatalogProduct(int productId, string productName, string description, Money price)
-    {
-      this.ProductId = productId.ToString();
-      this.ProductName = productName;
-      this.ProductDescription = description;
-      this.Price = price;
-    }
-    public string ProductId { get; private set; }
-    public string ProductName { get; private set; }
-    public string ProductDescription { get; private set; }
-    public Money Price { get; private set; }
-  }
+  public record ProductCatalogProduct(int ProductId, string ProductName, string Description, Money Price);
 
-  public class Money { }
+  public record Money();
 }

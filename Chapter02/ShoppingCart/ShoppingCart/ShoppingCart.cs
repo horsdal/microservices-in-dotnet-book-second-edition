@@ -7,15 +7,12 @@ namespace ShoppingCart.ShoppingCart
 
   public class ShoppingCart
   {
-    private readonly HashSet<ShoppingCartItem> items = new HashSet<ShoppingCartItem>();
+    private readonly HashSet<ShoppingCartItem> items = new();
 
     public int UserId { get; }
     public IEnumerable<ShoppingCartItem> Items => this.items;
 
-    public ShoppingCart(int userId)
-    {
-      this.UserId = userId;
-    }
+    public ShoppingCart(int userId) => this.UserId = userId;
 
     public void AddItems(IEnumerable<ShoppingCartItem> shoppingCartItems, IEventStore eventStore)
     {
@@ -24,57 +21,21 @@ namespace ShoppingCart.ShoppingCart
           eventStore.Raise("ShoppingCartItemAdded", new {this.UserId, item });
     }
 
-    public void RemoveItems(int[] productCatalogueIds, IEventStore eventStore)
-    {
+    public void RemoveItems(int[] productCatalogueIds, IEventStore eventStore) =>
       this.items.RemoveWhere(i => productCatalogueIds.Contains(i.ProductCatalogueId));
-    }
   }
 
-  public class ShoppingCartItem
+  public record ShoppingCartItem(
+    int ProductCatalogueId,
+    string ProductName,
+    string Description,
+    Money Price)
   {
-    public int ProductCatalogueId { get; }
-    public string ProductName { get; }
-    public string Description { get; }
-    public Money Price { get; }
+    public virtual bool Equals(ShoppingCartItem? obj) =>
+      obj != null && this.ProductCatalogueId.Equals(obj.ProductCatalogueId);
 
-    public ShoppingCartItem(
-      int productCatalogueId,
-      string productName,
-      string description,
-      Money price)
-    {
-      this.ProductCatalogueId = productCatalogueId;
-      this.ProductName = productName;
-      this.Description = description;
-      this.Price = price;
-    }
-
-    public override bool Equals(object obj)
-    {
-      if (obj == null || GetType() != obj.GetType())
-      {
-        return false;
-      }
-
-      var that = obj as ShoppingCartItem;
-      return this.ProductCatalogueId.Equals(that.ProductCatalogueId);
-    }
-
-    public override int GetHashCode()
-    {
-      return this.ProductCatalogueId.GetHashCode();
-    }
+    public override int GetHashCode() => this.ProductCatalogueId.GetHashCode();
   }
 
-  public class Money
-  {
-    public string Currency { get; }
-    public decimal Amount { get; }
-
-    public Money(string currency, decimal amount)
-    {
-      this.Currency = currency;
-      this.Amount = amount;
-    }
-  }
+  public record Money(string Currency, decimal Amount);
 }

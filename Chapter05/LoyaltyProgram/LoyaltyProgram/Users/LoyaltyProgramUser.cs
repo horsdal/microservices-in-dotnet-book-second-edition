@@ -2,11 +2,15 @@
 {
   using System;
 
-  public class LoyaltyProgramUser
+  public record LoyaltyProgramUser(int Id, string Name, int LoyaltyPoints, LoyaltyProgramSettings Settings);
+
+  public record LoyaltyProgramSettings()
   {
-    public int Id { get; set; }
-    public string Name { get; set; } = String.Empty;
-    public int LoyaltyPoints { get; set; }
-    public LoyaltyProgramSettings Settings { get; set; } = new LoyaltyProgramSettings();
+    public LoyaltyProgramSettings(string[] interests) : this()
+    {
+      this.Interests = interests;
+    }
+
+    public string[] Interests { get; init; } = Array.Empty<string>();
   }
 }

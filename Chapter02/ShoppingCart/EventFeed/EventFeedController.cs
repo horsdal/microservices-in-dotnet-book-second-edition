@@ -4,7 +4,7 @@ namespace ShoppingCart.EventFeed
   using Microsoft.AspNetCore.Mvc;
 
   [Route("/events")]
-  public class EventFeedController : Controller
+  public class EventFeedController
   {
     private readonly IEventStore eventStore;
 

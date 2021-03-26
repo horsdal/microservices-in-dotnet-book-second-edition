@@ -5,7 +5,7 @@
   using Microsoft.AspNetCore.Mvc;
 
   [Route("/users")]
-  public class UsersController : Controller
+  public class UsersController : ControllerBase
   {
     private static readonly IDictionary<int, LoyaltyProgramUser> RegisteredUsers = new Dictionary<int, LoyaltyProgramUser>();
 
@@ -33,8 +33,7 @@
     private LoyaltyProgramUser RegisterUser(LoyaltyProgramUser user)
     {
       var userId = RegisteredUsers.Count;
-      user.Id = userId;
-      return RegisteredUsers[userId] = user;
+      return RegisteredUsers[userId] = user with {Id = userId};
     }
   }
 }

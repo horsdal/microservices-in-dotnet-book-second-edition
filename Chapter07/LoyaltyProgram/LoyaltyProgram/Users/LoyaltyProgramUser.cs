@@ -1,12 +1,6 @@
 ﻿namespace LoyaltyProgram.Users
 {
-  using System;
+  public record LoyaltyProgramUser(int Id, string Name, int LoyaltyPoints, LoyaltyProgramSettings Settings);
 
-  public class LoyaltyProgramUser
-  {
-    public int Id { get; set; }
-    public string Name { get; set; } = string.Empty;
-    public int LoyaltyPoints { get; set; }
-    public LoyaltyProgramSettings Settings { get; set; } = new LoyaltyProgramSettings();
-  }
+  public record LoyaltyProgramSettings(string[] Interests);
 }

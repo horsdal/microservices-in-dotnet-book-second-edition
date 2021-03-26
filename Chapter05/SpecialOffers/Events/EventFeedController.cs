@@ -4,7 +4,7 @@
   using Microsoft.AspNetCore.Mvc;
 
   [Route(("/events"))]
-  public class EventFeedController : Controller
+  public class EventFeedController : ControllerBase
   {
     private readonly IEventStore eventStore;
 

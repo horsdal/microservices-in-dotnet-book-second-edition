@@ -4,9 +4,9 @@
   using System.Collections.Generic;
   using System.Linq;
   using System.Text;
+  using System.Text.Json;
   using System.Threading.Tasks;
   using EventStore.ClientAPI;
-  using Newtonsoft.Json;
 
   public class EsEventStore : IEventStore
   {
@@ -28,7 +28,7 @@
           new
           {
             Content = Encoding.UTF8.GetString(e.Event.Data),
-            Metadata = JsonConvert.DeserializeObject<EventMetadata>(Encoding.UTF8.GetString(e.Event.Metadata))
+            Metadata = JsonSerializer.Deserialize<EventMetadata>(Encoding.UTF8.GetString(e.Event.Metadata), new JsonSerializerOptions { PropertyNameCaseInsensitive = true })!
           })
         .Select((e, i) =>
           new Event(
@@ -49,18 +49,14 @@
           Guid.NewGuid(),
           "ShoppingCartEvent",
           isJson: true,
-          data: Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(content)),
-          metadata: Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(new EventMetadata
-          {
-            OccuredAt = DateTimeOffset.UtcNow,
-            EventName = eventName
-          }))));
+          data: Encoding.UTF8.GetBytes(JsonSerializer.Serialize(content)),
+          metadata: Encoding.UTF8.GetBytes(JsonSerializer.Serialize(new EventMetadata
+          (
+            DateTimeOffset.UtcNow,
+            eventName
+          )))));
     }
 
-    public class EventMetadata
-    {
-      public DateTimeOffset OccuredAt { get; set; }
-      public string EventName { get; set; }
-    }
+    public record EventMetadata(DateTimeOffset OccuredAt, string EventName);
   }
 }

@@ -6,16 +6,13 @@
   using Microsoft.AspNetCore.Mvc;
 
   [Route("/offers")]
-  public class SpecialOffersController : Controller
+  public class SpecialOffersController : ControllerBase
   {
     private readonly IEventStore eventStore;
     private static readonly IDictionary<int, Offer> Offers = new Dictionary<int, Offer>();
 
-    public SpecialOffersController(IEventStore eventStore)
-    {
-      this.eventStore = eventStore;
-    }
-    
+    public SpecialOffersController(IEventStore eventStore) => this.eventStore = eventStore;
+
     [HttpGet("{id:int}")]
     public ActionResult<Offer> GetOffer(int id) =>
       Offers.ContainsKey(id)
@@ -25,8 +22,6 @@
     [HttpPost("")]
     public ActionResult<Offer> CreateOffer([FromBody] Offer offer)
     {
-      if (offer == null)
-        return BadRequest();
       var newUser = NewOffer(offer);
       return Created(new Uri($"/offers/{newUser.Id}", UriKind.Relative), newUser);
     }
@@ -50,15 +45,11 @@
     private Offer NewOffer(Offer offer)
     {
       var offerId = Offers.Count;
-      offer.Id = offerId;
-      this.eventStore.RaiseEvent("SpecialOfferCreated", offer);
-      return Offers[offerId] = offer;
+      var newOffer = offer with {Id = offerId};
+      this.eventStore.RaiseEvent("SpecialOfferCreated", newOffer);
+      return Offers[offerId] = newOffer;
     }
   }
 
-  public class Offer
-  {
-    public string Description { get; set; } = "";
-    public int Id { get; set; }
-  }
+  public record Offer(string Description, int Id);
 }

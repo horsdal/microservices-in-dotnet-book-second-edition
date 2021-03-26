@@ -4,15 +4,12 @@
   using Microsoft.AspNetCore.Mvc;
 
   [Route(("/events"))]
-  public class EventFeedController : Controller
+  public class EventFeedController : ControllerBase
   {
     private readonly IEventStore eventStore;
 
-    public EventFeedController(IEventStore eventStore)
-    {
-      this.eventStore = eventStore;
-    }
-  
+    public EventFeedController(IEventStore eventStore) => this.eventStore = eventStore;
+
     [HttpGet("")]
     public ActionResult<EventFeedEvent[]> GetEvents([FromQuery] int start, [FromQuery] int end)
     {

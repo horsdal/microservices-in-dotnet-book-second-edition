@@ -7,6 +7,13 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ShoppingCart", "ShoppingCar
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProductCatalog", "ProductCatalog\ProductCatalog.csproj", "{76BF75AB-488D-4966-A137-E95AA8A065BF}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SolutionItems", "SolutionItems", "{488F7B49-3794-4FD0-A479-A6C2B6DD5160}"
+ProjectSection(SolutionItems) = preProject
+	docker-compose.yaml = docker-compose.yaml
+	examples.http = examples.http
+	http-client.env.json = http-client.env.json
+EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU

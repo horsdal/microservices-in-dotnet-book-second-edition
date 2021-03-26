@@ -5,8 +5,8 @@ namespace ShoppingCart
   using System.Linq;
   using System.Net.Http;
   using System.Net.Http.Headers;
+  using System.Text.Json;
   using System.Threading.Tasks;
-  using Newtonsoft.Json;
   using ShoppingCart;
 
   public interface IProductCatalogClient
@@ -31,7 +31,7 @@ namespace ShoppingCart
     
     public async Task<IEnumerable<ShoppingCartItem>> GetShoppingCartItems(int[] productCatalogIds)
     {
-      var response = await RequestProductFromProductCatalog(productCatalogIds);
+      using var response = await RequestProductFromProductCatalog(productCatalogIds);
       return await ConvertToShoppingCartItems(response);
     }
 
@@ -53,14 +53,18 @@ namespace ShoppingCart
       var cacheHeader = response.Headers.FirstOrDefault(h => h.Key == "cache-control");
       if (!string.IsNullOrEmpty(cacheHeader.Key)
           && CacheControlHeaderValue.TryParse(cacheHeader.Value.ToString(), out var cacheControl)
-          && cacheControl.MaxAge.HasValue)
-        this.cache.Add(resource, response, cacheControl.MaxAge.Value);
+          && cacheControl?.MaxAge.HasValue is true)
+        this.cache.Add(resource, response, cacheControl.MaxAge!.Value);
     }
 
     private static async Task<IEnumerable<ShoppingCartItem>> ConvertToShoppingCartItems(HttpResponseMessage response)
     {
       response.EnsureSuccessStatusCode();
-      var products = JsonConvert.DeserializeObject<List<ProductCatalogProduct>>(await response.Content.ReadAsStringAsync());
+      var products = await
+        JsonSerializer.DeserializeAsync<List<ProductCatalogProduct>>(
+          await response.Content.ReadAsStreamAsync(),
+          new JsonSerializerOptions { PropertyNameCaseInsensitive = true })
+        ?? new();
       return products
         .Select(p => 
           new ShoppingCartItem(
@@ -71,12 +75,6 @@ namespace ShoppingCart
         ));
     }
 
-    private class ProductCatalogProduct
-    {
-      public string ProductId { get; set; }
-      public string ProductName { get; set; }
-      public string ProductDescription { get; set; }
-      public Money Price { get; set; }
-    }
+    private record ProductCatalogProduct(string ProductId, string ProductName, string ProductDescription, Money Price);
   }
 }

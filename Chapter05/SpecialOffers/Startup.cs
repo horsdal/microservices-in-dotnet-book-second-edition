@@ -1,5 +1,6 @@
 namespace SpecialOffers
 {
+  using System.Linq;
   using Microsoft.AspNetCore.Builder;
   using Microsoft.AspNetCore.Hosting;
   using Microsoft.Extensions.DependencyInjection;
@@ -10,7 +11,7 @@ namespace SpecialOffers
     public void ConfigureServices(IServiceCollection services)
     {
       services.Scan(selector => selector.FromAssemblyOf<Startup>()
-          .AddClasses()
+          .AddClasses((c => c.Where(t => t.GetMethods().All(m => m.Name != "<Clone>$"))))
           .AsImplementedInterfaces());
       services.AddControllers();
   }
