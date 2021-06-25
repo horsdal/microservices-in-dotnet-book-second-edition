@@ -7,7 +7,7 @@
   [Route("/users")]
   public class UsersController : ControllerBase
   {
-    private static readonly IDictionary<int, LoyaltyProgramUser> RegisteredUsers = new Dictionary<int, LoyaltyProgramUser>();
+    private static readonly Dictionary<int, LoyaltyProgramUser> RegisteredUsers = new();
 
     [HttpGet("{userId:int}")]
     public ActionResult<LoyaltyProgramUser> GetUser(int userId) => 

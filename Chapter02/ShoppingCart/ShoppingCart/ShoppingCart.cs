@@ -1,6 +1,5 @@
 namespace ShoppingCart.ShoppingCart
 {
-  using System;
   using System.Collections.Generic;
   using System.Linq;
   using EventFeed;

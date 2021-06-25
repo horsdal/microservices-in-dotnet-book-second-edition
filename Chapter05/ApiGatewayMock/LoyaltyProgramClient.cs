@@ -9,7 +9,10 @@
   {
     private readonly HttpClient httpClient;
 
-    public LoyaltyProgramClient(HttpClient httpClient) => this.httpClient = httpClient;
+    public LoyaltyProgramClient(HttpClient httpClient)
+    {
+      this.httpClient = httpClient;
+    }
 
     public async Task<HttpResponseMessage> RegisterUser(string name)
     {

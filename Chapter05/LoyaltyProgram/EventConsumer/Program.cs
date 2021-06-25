@@ -19,7 +19,7 @@ Task<long> GetStartIdFromDatastore() => Task.FromResult(0L);
 // fake implementation. Should apply business rules to events
 async Task ProcessEvents(Stream content)
 {
-  var events = await JsonSerializer.DeserializeAsync<SpecialOfferEvent[]>(content) ?? new SpecialOfferEvent[];
+  var events = await JsonSerializer.DeserializeAsync<SpecialOfferEvent[]>(content) ?? new SpecialOfferEvent[0];
   foreach (var @event in events)
   {
     Console.WriteLine(@event);

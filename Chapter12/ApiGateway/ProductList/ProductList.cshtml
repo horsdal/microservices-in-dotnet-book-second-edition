@@ -1,0 +1,76 @@
+@model ApiGateway.ProductList.ProductListViewModel
+
+<!DOCTYPE html>
+<html>
+
+<head>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous">
+    <title>MicroCommerce.NET</title>
+
+    <script>
+    async function buy(productId){
+        const params = new URLSearchParams(location.search);
+        const rawResponse = await fetch('/shoppingcart/' + params.get('userId'), {
+            method: 'POST',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(productId)
+        });
+        window.location.reload(true);
+    }
+
+    async function removeFromCart(productId){
+        const params = new URLSearchParams(location.search);
+        const rawResponse = await fetch('/shoppingcart/' + params.get('userId'), {
+            method: 'DELETE',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(productId)
+        });
+        window.location.reload(true);
+    }
+    </script>
+</head>
+<body>
+<div class="container">
+    <div class="page-header">
+        <h1>MicroCommerce <small>- Product List</small></h1>
+    </div>
+    <div class="row">
+        <div class="col-md-8">
+            @foreach (var product in Model.Products)
+            {
+                <div class="row" style="border-bottom-style: solid">
+                    <div class="col-md-8">
+                        <h4>@product.ProductName</h4>
+                        <p>@product.Description</p>
+                    </div>
+                    <div class="col-md-4">
+                        <p></p>
+                        <button class="btn btn-primary" type="button" onclick="buy(@product.ProductId)">BUY!</button>
+                    </div>
+                </div>
+            }
+        </div>
+        <div class="col-md-4">
+            <div class="card bg-warning">
+                <div class="card-body">
+                <div class="card-title">Shopping Cart</div>
+                    @foreach(var product in Model.CartProducts)
+                    {
+                        <div class="card-text">
+                            @product.ProductName
+                            <button class="btn btn-link" onclick="removeFromBasket">X</button>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

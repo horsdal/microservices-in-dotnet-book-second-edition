@@ -18,8 +18,7 @@ namespace ShoppingCart
         .AddTransientHttpErrorPolicy(p =>
           p.WaitAndRetryAsync(
             3,
-            attempt => TimeSpan.FromMilliseconds(100 * Math.Pow(2, attempt)),
-            (ex, _) => Console.WriteLine(ex.ToString())));
+            attempt => TimeSpan.FromMilliseconds(100 * Math.Pow(2, attempt))));
       services.AddControllers();
     }
 

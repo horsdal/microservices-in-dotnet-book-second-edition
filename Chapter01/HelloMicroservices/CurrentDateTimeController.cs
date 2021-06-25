@@ -3,7 +3,7 @@
   using System;
   using Microsoft.AspNetCore.Mvc;
 
-  public class CurrentDateTimeController
+  public class CurrentDateTimeController : ControllerBase
   {
     [HttpGet("/")]
     public object Get() =>  DateTime.UtcNow;

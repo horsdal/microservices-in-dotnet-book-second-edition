@@ -5,7 +5,7 @@
   using Microsoft.AspNetCore.Mvc;
 
   [Route("/products")]
-  public class ProductCatalogController
+  public class ProductCatalogController : ControllerBase
   {
     private readonly IProductStore productStore;
 

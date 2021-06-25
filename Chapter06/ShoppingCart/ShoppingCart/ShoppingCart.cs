@@ -19,7 +19,7 @@ namespace ShoppingCart.ShoppingCart
     {
       this.Id = id;
       this.UserId = userId;
-      this.items = new HashSet<ShoppingCartItem>(items);
+      this.items = new HashSet<ShoppingCartItem>();
     }
 
     public void AddItems(IEnumerable<ShoppingCartItem> shoppingCartItems, IEventStore eventStore)

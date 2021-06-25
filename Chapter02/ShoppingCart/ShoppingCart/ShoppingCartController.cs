@@ -6,7 +6,7 @@ namespace ShoppingCart.Shoppingcart
   using ShoppingCart;
 
   [Route("/shoppingcart")]
-  public class ShoppingCartController
+  public class ShoppingCartController : ControllerBase
   {
     private readonly IShoppingCartStore shoppingCartStore;
     private readonly IProductCatalogClient productCatalog;

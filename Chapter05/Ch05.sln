@@ -17,6 +17,12 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SpecialOffers", "SpecialOff
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EventConsumer", "LoyaltyProgram\EventConsumer\EventConsumer.csproj", "{FAC0BC22-F623-452B-921F-69FD2039AFBD}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "LoyaltyProgram", "LoyaltyProgram", "{8DEB525E-68AB-4F40-A798-DB79E7438E0A}"
+ProjectSection(SolutionItems) = preProject
+	LoyaltyProgram\Dockerfile = LoyaltyProgram\Dockerfile
+	LoyaltyProgram\loyalty-program.yaml = LoyaltyProgram\loyalty-program.yaml
+EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -78,5 +84,9 @@ Global
 		{FAC0BC22-F623-452B-921F-69FD2039AFBD}.Release|x64.Build.0 = Release|Any CPU
 		{FAC0BC22-F623-452B-921F-69FD2039AFBD}.Release|x86.ActiveCfg = Release|Any CPU
 		{FAC0BC22-F623-452B-921F-69FD2039AFBD}.Release|x86.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{2B0F1894-C818-41CE-A02A-774BCF77E002} = {8DEB525E-68AB-4F40-A798-DB79E7438E0A}
+		{FAC0BC22-F623-452B-921F-69FD2039AFBD} = {8DEB525E-68AB-4F40-A798-DB79E7438E0A}
 	EndGlobalSection
 EndGlobal
